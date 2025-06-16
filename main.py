@@ -16,7 +16,6 @@ SCREEN.bgpic("blank_states_img.gif")  # Set background image of the US map
 data = pandas.read_csv("50_states.csv")
 all_states = data.state.to_list()  # List of all state names
 guessed_states: list = []          # List to store correctly guessed states
-missing_states: list = []          # List to store states that were not guessed
 
 # Game loop: keep asking for guesses until all 50 states are guessed
 while len(guessed_states) < 50:
@@ -28,9 +27,7 @@ while len(guessed_states) < 50:
 
     # If user types 'Exit', save the missing states to a CSV file and end the game
     if answer == "Exit":
-        for state in all_states:
-            if state not in guessed_states:
-                missing_states.append(state)
+        missing_states = [state for state in all_states if state not in guessed_states]
         pandas.DataFrame(missing_states).to_csv("states to learn.csv")
         break
 
